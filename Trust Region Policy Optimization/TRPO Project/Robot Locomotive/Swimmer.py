@@ -55,14 +55,13 @@ def flat_parameters(param):
     '''
     return torch.cat([grad.contiguous().view(-1) for grad in param])
 
-def cdf (mu, var, x):
-    ''' 
-    Since cdf for Normal distribution is not implemented yet, I have do it by
-    myself. The probability density value is f(x) = 1/(sqrt(2 * var * pi)) * e ^ (-1(x-mu)^2) / (2 * var)
-    '''
-    left = (1 / ( torch.sqrt(2 * var * m.pi)))
-    right = torch.pow(m.e, -torch.pow((x.clone().detach().requires_grad_(True) - mu),2) / (2 * var))
-    return left * right
+def get_kl_compare(mean1, var1, mean0, var0):
+    std0 = torch.sqrt(var0)
+    log_std0 = torch.log(std0)
+    std1 = torch.sqrt(var1)
+    log_std1 = torch.log(std1)
+    kl = log_std1 - log_std0 + (std0.pow(2) + (mean0 - mean1).pow(2)) / (2.0 * std1.pow(2)) - 0.5
+    return kl.sum(1, keepdim=True)
 
 def select_action(obs):
     state = torch.from_numpy(obs).float().unsqueeze(0).view(-1)
@@ -85,7 +84,6 @@ def select_action(obs):
         policy.mu_records  = torch.cat([policy.mu_records, mu], dim=0)
         policy.var_records = torch.cat([policy.var_records, var], dim=0)
         policy.x = torch.cat([policy.x, gauss_x_], dim=0)
-    policy.selected_action_prb.append(cdf(mu, var, gauss_x))
     return gauss_x
 
 def get_kl(mean1, var):
@@ -113,6 +111,7 @@ def update_theta(theta, beta, s):
             #print(beta_factor * beta_s)
             vector_to_parameters(new_theta, policy.parameters())
             beta_factor = 1 / m.e
+            print(policy(state))
             #print(get_kl_compare(pi, policy.policy_prbs))
             #before = before - get_kl_compare(pi, policy.policy_prbs)
             #if(get_kl_compare(pi, policy.policy_prbs) <= delta):
@@ -246,7 +245,7 @@ def main():
         state = env.reset()
         eps_reward = 0
         for t in range(500):
-            env.render()
+            #env.render()
             action = select_action(state)
             state, reward, done, _ = env.step(action)
             policy.rewards.append(reward)

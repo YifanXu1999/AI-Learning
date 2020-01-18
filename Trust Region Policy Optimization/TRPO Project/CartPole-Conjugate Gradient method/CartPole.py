@@ -199,12 +199,12 @@ def conjugate_gradient(b):
 
 def update_policy():
     L  = get_surrogate_loss()
-    L = L * -1
+    L = L
     policy.zero_grad()
     g_ = torch.autograd.grad(L, policy.parameters(), retain_graph=True)
     g = flat_parameters(g_)
     s = conjugate_gradient(g)
-    s = s * -1
+    s = s
     Hs = get_fisher_vector_product(s, 0)
     sHs = s.dot(Hs)
    # print(s)
