@@ -8,19 +8,18 @@ Created on Mon Jan 13 20:40:13 2020
 import torch
 import torch.autograd as autograd
 import torch.nn as nn
-
+import torch.nn.functional as F
 class Policy(nn.Module):
     def __init__(self, num_inputs, num_outputs, gamma=0.99, delta=0.01):
         super(Policy, self).__init__()
         self.gamma = gamma
         self.delta = delta
-        self.affine1 = nn.Linear(num_inputs, 64)
-        self.affine2 = nn.Linear(64, 64)
+        self.l1 = nn.Linear(num_inputs, 30)
+        self.l2 = nn.Linear(num_inputs, 30)
 
-        self.action_mean = nn.Linear(64, num_outputs)
-        self.action_mean.weight.data.mul_(0.1)
-        self.action_mean.bias.data.mul_(0.0)
-        self.action_log_std = nn.Parameter(torch.zeros(1, num_outputs))
+        self.action_head_mean = nn.Linear(30, 2)
+        self.action_head_var = nn.Linear(30, 2)
+       # self.action_log_std = nn.Parameter(torch.zeros(1, num_outputs))
         self.action_prb_records = []
         self.mu_records = []
         self.std_records = []
@@ -28,12 +27,11 @@ class Policy(nn.Module):
         self.states = []
 
     def forward(self, x):
-        x = torch.tanh(self.affine1(x))
-        x = torch.tanh(self.affine2(x))
-
-        action_mean = self.action_mean(x)
-        action_log_std = self.action_log_std.expand_as(action_mean)
-        action_std = torch.exp(action_log_std) * 0.5
-
-        return action_mean, action_log_std, action_std
+        x1 = self.l1(x)
+        x2 = self.l2(x)
+        mu = F.tanh(self.action_head_mean(x1)) * 1
+        var = F.sigmoid(self.action_head_var(x2)) * 0.1
+        std = torch.sqrt(var)
+        #print(mu)
+        return mu, x, std
     

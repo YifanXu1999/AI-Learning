@@ -83,11 +83,11 @@ class Agent:
         self.search_theta(s_, beta)
         
     def reset_policy_records(self):
-        self.action_prb_records = []
-        self.mu_records = []
-        self.std_records = []
-        self.rewards = []
-        self.states = []
+        self.policy.action_prb_records = []
+        self.policy.mu_records = []
+        self.policy.std_records = []
+        self.policy.rewards = []
+        self.policy.states = []
         self.policy.zero_grad()
 '''
 policy = Policy(8, 2)

@@ -27,10 +27,10 @@ agent = Agent(policy)
 
 
 def main():
-    for i in range(50):
+    for i in range(500):
         state = env.reset()
         eps_reward = 0
-        for t in range(200):
+        for t in range(100):
             action = agent.select_action(state)
             state, reward, done, _ = env.step(action)
             eps_reward += reward
