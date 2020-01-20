@@ -12,20 +12,21 @@ import torch
 env = gym.make('CartPole-v1')
 SEED = 1234
 env.seed(SEED)
-np.random.seed(SEED);
+#np.random.seed(SEED);
 torch.manual_seed(SEED);
 
-agent = Agent(4, 64, 2)
+agent = Agent(4, 20, 2)
 def main():
     
     
-    for i in range(500):
+    for i in range(350):
         state = env.reset()
         eps_reward = 0
         for t in range(500):
             action = agent.select_action(torch.FloatTensor(state).unsqueeze(0))
             state, reward, done, _ = env.step(action.item())
             agent.rewards.append(reward)
+            agent.states.append(torch.FloatTensor(state).unsqueeze(0))
             eps_reward += reward
             if(done):
                 break
@@ -33,9 +34,10 @@ def main():
         agent.update_policy()
     for i in range(10):
         state = env.reset()
-        for t in range(500):
+        for t in range(3000):
             action = agent.select_action(torch.FloatTensor(state).unsqueeze(0))
             state, reward, done, _ = env.step(action.item())
             env.render()
+        env.close()
 if __name__ == '__main__':
     main()
