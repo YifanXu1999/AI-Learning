@@ -19,7 +19,7 @@ agent = Agent(4, 20, 2)
 def main():
     
     
-    for i in range(350):
+    for i in range(1000):
         state = env.reset()
         eps_reward = 0
         for t in range(500):
