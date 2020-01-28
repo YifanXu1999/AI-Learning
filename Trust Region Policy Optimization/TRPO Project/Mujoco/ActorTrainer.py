@@ -19,17 +19,12 @@ from utils.helpers import flat_parameters
 import math as m
 from torch.nn.utils.convert_parameters import vector_to_parameters
 
-def log_density(x, mu, std, logstd):
-    var = std.pow(2)
-    log_density = -(x - mu).pow(2) / (2 * var) \
-                  - 0.5 * m.log(2 * m.pi) - logstd
-    return log_density.sum(1, keepdim=True)
-
 def get_surrogate_loss(advantages, actions, mu, std):
     #print(actions.size())
     #print(mu.size())
     #print(std.size())
-    pi_new = torch.exp(log_density(actions, mu, std, torch.log(std)))
+    normal = Normal(mu, std)
+    pi_new = torch.exp(normal.log_prob(actions))
     pi_old = pi_new.clone().detach()
     pi_new_over_pi_old = (pi_new / pi_old).sum(dim=1)
     L = (pi_new_over_pi_old * advantages).mean()
@@ -48,14 +43,13 @@ def update_theta(actor, old_theta, full_step, mu, std, states, constraint, max_i
         else:
             break
 
-def train_actor(actor, states, actions, values, rewards, masks, constraint_val=0.01):
+def train_actor(actor, states, actions, rewards, masks, constraint_val=0.01):
     '''
     This function trains the input actor
     input:
         actor
         states: 1d list
         actions: tensor matrix
-        values: 1d tensor list
         reward: 1d list
         masks: 1d list
     '''

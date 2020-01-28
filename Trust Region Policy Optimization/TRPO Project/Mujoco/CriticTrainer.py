@@ -25,7 +25,7 @@ def train_critic(critic, critic_optimizer, states, rewards, masks):
     arr = np.arange(len(rewards))
     returns = calculate_returns(rewards, masks)
     values = critic.forward(torch.FloatTensor(states))
-    #returns = returns.clone().reshape(values.size())
+    #returns = returns.clone().reshape(values.size()
     criterion = torch.nn.MSELoss()
     advants = calculate_advantages(rewards, values, masks)
     for epoch in range(5):

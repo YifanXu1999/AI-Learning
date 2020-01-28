@@ -5,6 +5,7 @@ Created on Wed Jan 22 20:14:52 2020
 
 @author: yifanxu
 """
+allow_pickle=True
 from Model import Actor
 from Model import Critic
 import torch
@@ -21,7 +22,7 @@ class Agent:
     def __init__(self, actor, critic, critic_lr=0.01):
         self.actor = actor
         self.critic = critic
-        self.critic_opt = optim.Adam(self.critic.parameters(), lr=critic_lr)
+        #self.critic_opt = optim.Adam(self.critic.parameters(), lr=critic_lr)
     
     def select_action(self, state):
         '''
@@ -35,9 +36,9 @@ class Agent:
         '''
         state = torch.FloatTensor(state).unsqueeze(0)
         mu, _, std = self.actor.forward(state)
-        dist = torch.normal(mu, std)
-        dist = dist.data
-        return dist
+        dist = Normal(mu, std)
+        action = dist.sample()
+        return action
     
     def update_policy(self, states, actions, rewards, masks):
         '''
@@ -48,25 +49,23 @@ class Agent:
             rewards: 1d list
             masks: 1d list
         '''
-        values = self.critic.forward(torch.FloatTensor(states))
        # train_critic(self.critic, self.critic_opt, states, rewards, masks)
-        train_actor(self.actor, states, actions, values, rewards, masks)
+        train_actor(self.actor, states, actions, rewards, masks)
 
-actor = Actor(11, 50, 3)
-critic = Critic(11, 50)
+#critic = Critic(11, 50)
 
-agent = Agent(actor, critic)
-
-env = gym.make('Hopper-v2')
+env = gym.make('Walker2d-v2')
 env.seed(500)
 torch.manual_seed(500)
 ava_reward = 0
+actor = Actor(env.observation_space.shape[0], 50, env.action_space.shape[0])
+agent = Agent(actor, None)
 for i in range(200):
 
     memory = deque()
     state = env.reset()
     rew = 0
-    for m in range(1000):
+    for m in range(10000):
         state = env.reset()
         eps_reward = 0
         for t in range(1000):
@@ -90,9 +89,10 @@ for i in range(200):
     masks = memory[:, 3]
     agent.update_policy(states, actions, rewards, masks)
     #print(states)
-    print('iter', i , rew / 1000)
-        
-for x in range (10):
+    print('iter', i , rew / 10000)
+
+print('Done Training')
+for x in range (100):
     state = env.reset()
     rew = 0
     for t in range(100000):
@@ -103,4 +103,5 @@ for x in range (10):
         if(done):
             break
         state = next_state
-    print(rew)
+    print('iter', x, rew)
+env.close()

@@ -14,14 +14,12 @@ import math as m
 import torch.autograd as autograd
 
 
-def kl_divergence(mu, std, logstd, mu_old, std_old, logstd_old):
-
-    # kl divergence between old policy and new policy : D( pi_old || pi_new )
-    # pi_old -> mu0, logstd0, std0 / pi_new -> mu, logstd, std
-    # be careful of calculating KL-divergence. It is not symmetric metric
-    kl = logstd_old - logstd + (std_old.pow(2) + (mu_old - mu).pow(2)) / \
-         (2.0 * std.pow(2)) - 0.5
-    return kl.sum(1, keepdim=True)
+def kl_divergence(mu, std, mu_old, std_old):
+    normal_new = Normal(mu, std)
+    normal_old = Normal(mu_old, std_old)
+    D_kl = kl.kl_divergence(normal_old, normal_new)
+    D_kl = D_kl.sum(dim=1)
+    return D_kl.mean()
 
 def get_kl(mu_old, std_old, mu_new, std_new):
     '''
@@ -38,7 +36,7 @@ def get_kl(mu_old, std_old, mu_new, std_new):
     #q = Normal(mu_new, std_new)
     #D_kl = kl.kl_divergence(p, q)
     #return D_kl.sum(dim=1).mean()
-    D_kl = kl_divergence(mu_new, std_new, torch.log(std_new), mu_old, std_old, torch.log(std_old))
+    D_kl = kl_divergence(mu_new, std_new, mu_old, std_old)
     return D_kl.mean()
 
 def fisher_vector_product(actor, mu, std, x, dampling=1e-1):
