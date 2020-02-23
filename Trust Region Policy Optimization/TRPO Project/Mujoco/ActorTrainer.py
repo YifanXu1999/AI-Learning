@@ -43,11 +43,12 @@ def update_theta(actor, old_theta, full_step, mu, std, states, constraint, max_i
         else:
             break
 
-def train_actor(actor, states, actions, rewards, masks, constraint_val=0.01):
+def train_actor(actor, critic, states, actions, rewards, masks, constraint_val=0.01):
     '''
     This function trains the input actor
     input:
         actor
+        critic
         states: 1d list
         actions: tensor matrix
         reward: 1d list
@@ -59,6 +60,9 @@ def train_actor(actor, states, actions, rewards, masks, constraint_val=0.01):
     #advantages = calculate_advantages(rewards, values, masks)
     # Get the surrogate loss
     returns = calculate_returns(rewards, masks)
+    values = critic(states)
+    advantages = calculate_advantages(rewards, values, masks)
+    #print(advantages)
     loss = get_surrogate_loss(returns, actions, mu, std)
     # Get the gradient of loss over  (g)
     actor.zero_grad()

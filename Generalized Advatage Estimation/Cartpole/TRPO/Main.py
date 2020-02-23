@@ -19,7 +19,7 @@ agent = Agent(4, 20, 2)
 def main():
     
     
-    for i in range(1000):
+    for i in range(100):
         state = env.reset()
         eps_reward = 0
         for t in range(500):
@@ -32,7 +32,7 @@ def main():
                 break
         print('iter', i, eps_reward)
         agent.update_policy()
-    for i in range(10):
+    for i in range(0):
         state = env.reset()
         for t in range(3000):
             action = agent.select_action(torch.FloatTensor(state).unsqueeze(0))

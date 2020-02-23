@@ -21,23 +21,13 @@ def train_critic(critic, critic_optimizer, states, rewards, masks):
     output:
         None
     '''
-    n = len(rewards)
-    arr = np.arange(len(rewards))
+    states = torch.FloatTensor(states)
+    values = critic(states).reshape(-1)
+    advantages = calculate_advantages(rewards, values, masks)
     returns = calculate_returns(rewards, masks)
-    values = critic.forward(torch.FloatTensor(states))
-    #returns = returns.clone().reshape(values.size()
-    criterion = torch.nn.MSELoss()
-    advants = calculate_advantages(rewards, values, masks)
-    for epoch in range(5):
-        np.random.shuffle(arr)
-        for i in range(n // 64):
-            batch_index = arr[64 * i: 64 * (i + 1)]
-            batch_index = torch.LongTensor(batch_index)
-            target1 = returns.unsqueeze(1)[batch_index]
-            target2 = advants.unsqueeze(1)[batch_index]
-            values = critic.forward(torch.FloatTensor(states))
-            values = values[batch_index]
-            loss = criterion(values, target1 + target2)
-            critic_optimizer.zero_grad()
-            loss.backward()
-            critic_optimizer.step()
+    advantages = advantages.detach()
+    returns = returns.detach()
+    value_loss = F.smooth_l1_loss(returns, values).sum()
+    critic_optimizer.zero_grad()
+    value_loss.backward()
+    critic_optimizer.step()

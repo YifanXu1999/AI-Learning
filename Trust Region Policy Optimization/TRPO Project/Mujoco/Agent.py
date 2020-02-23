@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -5,7 +6,6 @@ Created on Wed Jan 22 20:14:52 2020
 
 @author: yifanxu
 """
-allow_pickle=True
 from Model import Actor
 from Model import Critic
 import torch
@@ -22,7 +22,7 @@ class Agent:
     def __init__(self, actor, critic, critic_lr=0.01):
         self.actor = actor
         self.critic = critic
-        #self.critic_opt = optim.Adam(self.critic.parameters(), lr=critic_lr)
+        self.critic_opt = optim.Adam(self.critic.parameters(), lr=critic_lr)
     
     def select_action(self, state):
         '''
@@ -49,26 +49,31 @@ class Agent:
             rewards: 1d list
             masks: 1d list
         '''
-       # train_critic(self.critic, self.critic_opt, states, rewards, masks)
-        train_actor(self.actor, states, actions, rewards, masks)
+        train_actor(self.actor, self.critic, states, actions, rewards, masks)
 
 #critic = Critic(11, 50)
 
-env = gym.make('Walker2d-v2')
+env = gym.make('Hopper-v2')
 env.seed(500)
 torch.manual_seed(500)
 ava_reward = 0
 actor = Actor(env.observation_space.shape[0], 50, env.action_space.shape[0])
-agent = Agent(actor, None)
-for i in range(200):
+critic = Critic(env.observation_space.shape[0], 50)
+agent = Agent(actor, critic)
+
+num_of_iters = 200
+num_of_paths = 1000
+num_of_steps = 1000
+for i in range(num_of_iters):
 
     memory = deque()
     state = env.reset()
     rew = 0
-    for m in range(10000):
+    for m in range(num_of_paths):
         state = env.reset()
         eps_reward = 0
-        for t in range(1000):
+        tmp_memory = deque()
+        for t in range(num_of_steps):
             action = agent.select_action(state)
             next_state, reward, done, _ = env.step(action)
             eps_reward += reward
@@ -77,8 +82,14 @@ for i in range(200):
             else:
                 mask = 1
             memory.append([state, action, reward, mask])
+            tmp_memory.append([state, action, reward, mask])
             state = next_state
             if done:
+                tp_memory = np.array(tmp_memory)
+                tp_states = np.vstack(tp_memory[:, 0])
+                tp_masks = tp_memory[:, 3]
+                tp_rewards = tp_memory[:, 2]
+                train_critic(agent.critic, agent.critic_opt, tp_states, tp_rewards, tp_masks)
                 break
         rew += eps_reward
     memory = np.array(memory)
@@ -89,7 +100,7 @@ for i in range(200):
     masks = memory[:, 3]
     agent.update_policy(states, actions, rewards, masks)
     #print(states)
-    print('iter', i , rew / 10000)
+    print('iter', i , rew / num_of_paths)
 
 print('Done Training')
 for x in range (100):

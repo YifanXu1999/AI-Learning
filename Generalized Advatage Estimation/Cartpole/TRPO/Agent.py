@@ -117,7 +117,7 @@ class Agent:
         fisher_vector_product = flat_parameters(kl_2_grads)
         return fisher_vector_product + damping * x
     
-    def conjugate_gradient(self, b, res_threshold=1e-10):
+    def conjugate_gradient(self, A, b, res_threshold=1e-10):
         '''
         input: b where Ax = b, A is the Fisher information matrix H, b is the gradient of the loss function
         Algorithm from wiki
@@ -150,7 +150,7 @@ class Agent:
         rsold = r.dot(r)
         for i in range(cg_max_iters):
             # A  = get_fisher_vector_product()
-            Ap = self.get_fisher_vector_product(p)
+            Ap = A(p)
             alpha = rsold / (p.dot(Ap))
             x = x + alpha * p
             r = r - alpha * Ap
@@ -172,12 +172,14 @@ class Agent:
         
         advantages = advantages.detach()
         returns = returns.detach()
-        
+        print(advantages)
+        print(prob_actions)
         policy_loss = (advantages * (prob_actions / prob_actions.data)).sum()
         self.actor.zero_grad()
         g_ = torch.autograd.grad(policy_loss, self.actor.parameters(), retain_graph=True)
         g = flat_parameters(g_)
-        s = self.conjugate_gradient(g)
+        s = self.conjugate_gradient(self.get_fisher_vector_product, g)
+        print(s)
         Hs = self.get_fisher_vector_product(s, 0)
         sHs = s.dot(Hs)
         beta =  m.sqrt(2*delta / sHs)
