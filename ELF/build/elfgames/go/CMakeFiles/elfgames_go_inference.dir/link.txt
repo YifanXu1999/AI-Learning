@@ -1,2 +1,0 @@
-/usr/bin/ar qc libelfgames_go_inference.a  CMakeFiles/elfgames_go_inference.dir/base/board_feature.cc.o CMakeFiles/elfgames_go_inference.dir/base/common.cc.o CMakeFiles/elfgames_go_inference.dir/base/go_state.cc.o CMakeFiles/elfgames_go_inference.dir/base/board.cc.o CMakeFiles/elfgames_go_inference.dir/sgf/sgf.cc.o CMakeFiles/elfgames_go_inference.dir/common/game_selfplay.cc.o CMakeFiles/elfgames_go_inference.dir/common/go_state_ext.cc.o CMakeFiles/elfgames_go_inference.dir/inference/Pybind.cc.o
-/usr/bin/ranlib libelfgames_go_inference.a

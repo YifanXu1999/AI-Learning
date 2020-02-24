@@ -1,2 +1,0 @@
-/usr/bin/ar qc libelfgames_go9.a  CMakeFiles/elfgames_go9.dir/base/board_feature.cc.o CMakeFiles/elfgames_go9.dir/base/common.cc.o CMakeFiles/elfgames_go9.dir/base/go_state.cc.o CMakeFiles/elfgames_go9.dir/base/board.cc.o CMakeFiles/elfgames_go9.dir/sgf/sgf.cc.o CMakeFiles/elfgames_go9.dir/common/game_selfplay.cc.o CMakeFiles/elfgames_go9.dir/common/go_state_ext.cc.o CMakeFiles/elfgames_go9.dir/train/client_manager.cc.o CMakeFiles/elfgames_go9.dir/train/game_train.cc.o CMakeFiles/elfgames_go9.dir/train/Pybind.cc.o
-/usr/bin/ranlib libelfgames_go9.a
