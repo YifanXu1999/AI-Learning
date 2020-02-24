@@ -7,12 +7,12 @@
 # LICENSE file in the root directory of this source tree.
 
 save=./myserver game=elfgames.go.game model=df_kl model_file=elfgames.go.df_model3 \
-    stdbuf -o 0 -e 0 python -u ./train.py \
-    --mode train    --batchsize 2048 \
-    --num_games 2048    --keys_in_reply V \
+    stdbuf -o 0 -e 0 python3  ./train.py \
+    --mode offline_train    --batchsize 1 \
+    --num_games 1    --keys_in_reply V \
     --T 1    --use_data_parallel \
-    --num_minibatch 1000    --num_episode 1000000 \
-    --mcts_threads 8    --mcts_rollout_per_thread 200 \
+    --num_minibatch 10    --num_episode 10 \
+    --mcts_threads 3    --mcts_rollout_per_thread 3\
     --keep_prev_selfplay    --keep_prev_selfplay \
     --use_mcts     --use_mcts_ai2 \
     --mcts_persistent_tree    --mcts_use_prior \
@@ -26,7 +26,7 @@ save=./myserver game=elfgames.go.game model=df_kl model_file=elfgames.go.df_mode
     --num_block 20     --dim 256 \
     --weight_decay 0.0002    --opt_method sgd \
     --bn_momentum=0 --num_cooldown=50 \
-    --expected_num_client 496 \
+    --expected_num_client 0 \
     --selfplay_init_num 0 --selfplay_update_num 0 \
     --eval_num_games 0 --selfplay_async \
-    --lr 0.01    --momentum 0.9     1>> log.log 2>&1 &
+    --lr 0.01    --momentum 0.9 

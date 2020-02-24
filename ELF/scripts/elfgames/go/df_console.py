@@ -76,6 +76,7 @@ def main():
     evaluator.episode_start(0)
 
     while True:
+	print("nice \n\n")
         GC.run()
         if console.exit:
             break

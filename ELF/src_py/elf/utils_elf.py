@@ -35,10 +35,10 @@ class Allocator(object):
         sz = p.field().sz().vec()
 
         print(name, type_name, sz)
-
+        use_numpy = False
         if not use_numpy:
             v = Allocator.torch_types[type_name](*sz)
-            if gpu is not None:
+            if gpu is not None and False:
                 with torch.cuda.device(gpu):
                     v = v.pin_memory()
             v.fill_(1)

@@ -107,6 +107,7 @@ class GCWrapper:
   def _call(self, smem, *args, **kwargs):
 
   def run(self):
+    print("nice \n\n\n")
     smem = self.GC.ctx().wait()
     self._call(smem, *args, **kwargs)
     self.GC.ctx().step()

@@ -85,7 +85,9 @@ class SingleProcessRun(object):
                 old_counter = self.episode_counter
                 # Make sure if the callback function in GC.run() change the
                 # counter, then the set value will not be added by 1.
+                print("before")
                 self.GC.run()
+                print("after")
                 self.episode_counter += 1
                 diff = self.episode_counter - old_counter
                 if tq is not None:

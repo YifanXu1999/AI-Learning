@@ -34,16 +34,16 @@ class Stats(object):
             print(datetime.now())
 
             batch_usage = self.total_sel_batchsize / self.total_batchsize
-            print(f'Batch usage: '
-                  f'{self.total_sel_batchsize}/{self.total_batchsize} '
-                  f'({100.0 * batch_usage:.2f}%)')
+            print('Batch usage: '
+                  '{self.total_sel_batchsize}/{self.total_batchsize} '
+                  '({100.0 * batch_usage:.2f}%)')
 
             wr = batch.GC.getClient().getGameStats().getWinRateStats()
             win_rate = (100.0 * wr.black_wins / wr.total_games
                         if wr.total_games > 0
                         else 0.0)
-            print(f'B/W: {wr.black_wins}/{wr.white_wins}. '
-                  f'Black winrate: {win_rate:.2f} {wr.total_games}')
+            print('B/W: {wr.black_wins}/{wr.white_wins}. '
+                  'Black winrate: {win_rate:.2f} {wr.total_games}')
 
             self.total_sel_batchsize = 0
             self.total_batchsize = 0
@@ -119,7 +119,7 @@ def main():
         stat = stats[i]
         e = env["eval_" + actor_name]
 
-        print(f'register {actor_name} for e = {e!s}')
+        print('register {actor_name} for e = {e!s}')
         e.setup(sampler=env["sampler"], mi=env["mi_" + actor_name])
 
         def actor(batch, e, stat):
@@ -131,7 +131,7 @@ def main():
                         lambda batch, e=e, stat=stat: actor(batch, e, stat))
 
     root = os.environ.get("root", "./")
-    print(f'Root: "{root}"')
+    print('Root: "{root}"')
     args = env["game"].options
     loop_end = False
 
@@ -156,17 +156,17 @@ def main():
                         time.sleep(10)
 
     def game_end(batch):
-        nonlocal loop_end
+        global loop_end
         wr = batch.GC.getClient().getGameStats().getWinRateStats()
         win_rate = (100.0 * wr.black_wins / wr.total_games
                     if wr.total_games > 0 else 0.0)
-        print(f'{datetime.now()!s} B/W: {wr.black_wins}/{wr.white_wins}.'
-              f'Black winrate: {win_rate:.2f} ({wr.total_games})')
+        print('{datetime.now()!s} B/W: {wr.black_wins}/{wr.white_wins}.'
+              'Black winrate: {win_rate:.2f} ({wr.total_games})')
 
         if args.suicide_after_n_games > 0 and \
                 wr.total_games >= args.suicide_after_n_games:
-            print(f'#suicide_after_n_games: {args.suicide_after_n_games}, '
-                  f'total_games: {wr.total_games}')
+            print('#suicide_after_n_games: {args.suicide_after_n_games}, '
+                  'total_games: {wr.total_games}')
             loop_end = True
 
     GC.reg_callback_if_exists("game_start", game_start)

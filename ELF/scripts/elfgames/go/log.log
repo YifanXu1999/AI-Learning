@@ -1,0 +1,257 @@
+Python version: 3.7.6 (default, Jan  8 2020, 19:59:22) 
+[GCC 7.3.0]
+PyTorch version: 1.1.0
+CUDA version 9.0.176
+Conda env: elf
+[2020-02-23 02:58:00.301] [rlpytorch.model_loader.load_env0] [info] Loading env
+<module 'elfgames.go.game' from '/Go/ELF/src_py/elfgames/go/game.py'> elfgames.go.game
+<module 'elfgames.go.df_model3' from '/Go/ELF/src_py/elfgames/go/df_model3.py'> elfgames.go.df_model3
+[2020-02-23 02:58:00.338] [rlpytorch.model_loader.load_env0] [info] Parsed options: {'T': 1,
+ 'actor_only': False,
+ 'adam_eps': 0.001,
+ 'additional_labels': [],
+ 'backprop': True,
+ 'batchsize': 2048,
+ 'batchsize2': -1,
+ 'black_use_policy_network_only': False,
+ 'bn': True,
+ 'bn_eps': 1e-05,
+ 'bn_momentum': 0.0,
+ 'cheat_eval_new_model_wins_half': False,
+ 'cheat_selfplay_random_result': False,
+ 'check_loaded_options': True,
+ 'client_max_delay_sec': 1200,
+ 'comment': '',
+ 'data_aug': -1,
+ 'dim': 256,
+ 'dist_rank': -1,
+ 'dist_url': '',
+ 'dist_world_size': -1,
+ 'dump_record_prefix': '',
+ 'epsilon': 0.0,
+ 'eval_model_pair': '',
+ 'eval_num_games': 0,
+ 'eval_old_model': -1,
+ 'eval_winrate_thres': 0.55,
+ 'expected_num_clients': 496,
+ 'following_pass': False,
+ 'freq_update': 1,
+ 'gpu': 0,
+ 'keep_prev_selfplay': True,
+ 'keys_in_reply': ['V'],
+ 'latest_symlink': 'latest',
+ 'leaky_relu': False,
+ 'list_files': [],
+ 'load': '',
+ 'load_model_sleep_interval': 0.0,
+ 'loglevel': 'info',
+ 'lr': 0.01,
+ 'mcts_alpha': 0.03,
+ 'mcts_epsilon': 0.25,
+ 'mcts_persistent_tree': True,
+ 'mcts_pick_method': 'most_visited',
+ 'mcts_puct': 0.85,
+ 'mcts_rollout_per_batch': 1,
+ 'mcts_rollout_per_thread': 200,
+ 'mcts_root_unexplored_q_zero': False,
+ 'mcts_threads': 8,
+ 'mcts_unexplored_q_zero': False,
+ 'mcts_use_prior': True,
+ 'mcts_verbose': False,
+ 'mcts_verbose_time': False,
+ 'mcts_virtual_loss': 5,
+ 'mode': 'train',
+ 'momentum': 0.9,
+ 'move_cutoff': -1,
+ 'num_block': 20,
+ 'num_cooldown': 50,
+ 'num_episode': 1000000,
+ 'num_future_actions': 1,
+ 'num_games': 2048,
+ 'num_games_per_thread': -1,
+ 'num_minibatch': 1000,
+ 'num_reader': 50,
+ 'num_reset_ranking': 5000,
+ 'omit_keys': [],
+ 'onload': [],
+ 'opt_method': 'sgd',
+ 'parameter_print': True,
+ 'parsed_args': ['./train.py',
+                 '--mode',
+                 'train',
+                 '--batchsize',
+                 '2048',
+                 '--num_games',
+                 '2048',
+                 '--keys_in_reply',
+                 'V',
+                 '--T',
+                 '1',
+                 '--use_data_parallel',
+                 '--num_minibatch',
+                 '1000',
+                 '--num_episode',
+                 '1000000',
+                 '--mcts_threads',
+                 '8',
+                 '--mcts_rollout_per_thread',
+                 '200',
+                 '--keep_prev_selfplay',
+                 '--keep_prev_selfplay',
+                 '--use_mcts',
+                 '--use_mcts_ai2',
+                 '--mcts_persistent_tree',
+                 '--mcts_use_prior',
+                 '--mcts_virtual_loss',
+                 '5',
+                 '--mcts_epsilon',
+                 '0.25',
+                 '--mcts_alpha',
+                 '0.03',
+                 '--mcts_puct',
+                 '0.85',
+                 '--resign_thres',
+                 '0.01',
+                 '--gpu',
+                 '0',
+                 '--server_id',
+                 'myserver',
+                 '--eval_num_games',
+                 '400',
+                 '--eval_winrate_thres',
+                 '0.55',
+                 '--port',
+                 '1234',
+                 '--q_min_size',
+                 '200',
+                 '--q_max_size',
+                 '4000',
+                 '--save_first',
+                 '--num_block',
+                 '20',
+                 '--dim',
+                 '256',
+                 '--weight_decay',
+                 '0.0002',
+                 '--opt_method',
+                 'sgd',
+                 '--bn_momentum=0',
+                 '--num_cooldown=50',
+                 '--expected_num_client',
+                 '496',
+                 '--selfplay_init_num',
+                 '0',
+                 '--selfplay_update_num',
+                 '0',
+                 '--eval_num_games',
+                 '0',
+                 '--selfplay_async',
+                 '--lr',
+                 '0.01',
+                 '--momentum',
+                 '0.9'],
+ 'ply_pass_enabled': 0,
+ 'policy_distri_cutoff': 0,
+ 'policy_distri_training_for_all': False,
+ 'port': 1234,
+ 'preload_sgf': '',
+ 'preload_sgf_move_to': -1,
+ 'print_result': False,
+ 'q_max_size': 4000,
+ 'q_min_size': 200,
+ 'ratio_pre_moves': 0,
+ 'record_dir': './record',
+ 'replace_prefix': [],
+ 'resign_thres': 0.01,
+ 'sample_nodes': ['pi,a'],
+ 'sample_policy': 'epsilon-greedy',
+ 'save_dir': './myserver',
+ 'save_first': True,
+ 'save_prefix': 'save',
+ 'selfplay_async': True,
+ 'selfplay_init_num': 0,
+ 'selfplay_timeout_usec': 0,
+ 'selfplay_update_num': 0,
+ 'server_addr': '',
+ 'server_id': 'myserver',
+ 'start_ratio_pre_moves': 0.5,
+ 'store_greedy': False,
+ 'suicide_after_n_games': -1,
+ 'tqdm': False,
+ 'trainer_stats': '',
+ 'use_data_parallel': True,
+ 'use_data_parallel_distributed': False,
+ 'use_df_feature': False,
+ 'use_fp16': False,
+ 'use_mcts': True,
+ 'use_mcts_ai2': True,
+ 'verbose': False,
+ 'weight_decay': 0.0002,
+ 'white_mcts_rollout_per_batch': -1,
+ 'white_mcts_rollout_per_thread': -1,
+ 'white_puct': -1.0,
+ 'white_use_policy_network_only': False}
+Stats: Name  is not known!
+[2020-02-23 02:58:00.339] [rlpytorch.model_loader.load_env0] [info] Finished loading env
+[2020-02-23 02:58:00.339] [elf::legacy::ContextOptions-0] [info] JobId: local
+[2020-02-23 02:58:00.339] [elf::legacy::ContextOptions-0] [info] #Game: 2048
+[2020-02-23 02:58:00.339] [elf::legacy::ContextOptions-0] [info] T: 1
+[2020-02-23 02:58:00.340] [elf::legacy::ContextOptions-0] [info] [#th=8][rl=200][per=1][eps=0.25][alpha=0.03][prior=1][c_puct=0.85][uqz=0][r_uqz=0]
+[2020-02-23 02:58:00.340] [elfgames::go::train::TrainCtrl-11] [info] Finished initializing replay_buffer #Queue: 50, spec: ReaderQueue: Queue [min=200][max=4000], Length: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, Total: 0, MinSizeSatisfied: 0
+[2020-02-23 02:58:00.343] [elfgames::go::train::DataOnlineLoader-17] [info] ZMQVer: 4.3.1 Reader[db=data-1582426680.db] [local] Connect to [XXX.XXX.XXX.XXX]:1234, ipv6: True, verbose: False
+[2020-02-23 02:58:00.344] [elf::distributed::Reader-21] [info] Sun Feb 23 02:58:00 2020, Reader: no message, Stats: 0/0/0, wait for 10 sec ... 
+**** Options ****
+Seed: 0
+Time signature: 200223-025800
+Client max delay in sec: 1200
+#FutureActions: 1
+#GamePerThread: -1
+mode: train
+Selfplay init min #games: 0, update #games: 0, async: True
+UseMCTS: True
+Data Aug: -1
+Start_ratio_pre_moves: 0.5
+ratio_pre_moves: 0
+MoveCutOff: -1
+Use DF feature: False
+PolicyDistriCutOff: 0
+Expected #client: 496
+Server_addr: [XXX.XXX.XXX.XXX], server_id: myserver, port: 1234
+#Reader: 50, Qmin_sz: 200, Qmax_sz: 4000
+Verbose: False
+Policy distri training for all moves: False
+Min Ply from which pass is enabled: 0
+Reset move ranking after 5000 actions
+Resign Threshold: 0.01, Dynamic Resign Threshold, resign_prob_never: 0.1, target_fp_rate: 0.05, bounded within [1e-09, 0.5]
+
+Komi: 7.5
+
+*****************
+Version:  e851e786ced8d26cf470f08a6b9bf7e413fc63f7_staged
+Mode:  train
+Num Actions:  362
+train: {'input': ['s', 'offline_a', 'winner', 'mcts_scores', 'move_idx', 'selfplay_ver'], 'reply': None}
+SharedMem: "train", keys: ['winner', 'selfplay_ver', 'mcts_scores', 'offline_a', 'move_idx', 's']
+winner float [2048]
+THCudaCheck FAIL file=/opt/conda/conda-bld/pytorch_1556653215914/work/torch/csrc/cuda/Module.cpp line=52 error=35 : CUDA driver version is insufficient for CUDA runtime version
+Traceback (most recent call last):
+  File "./train.py", line 144, in <module>
+    main()
+  File "./train.py", line 43, in main
+    GC = env["game"].initialize()
+  File "/Go/ELF/src_py/elfgames/go/game.py", line 434, in initialize
+    verbose=self.options.parameter_print)
+  File "/Go/ELF/src_py/elf/utils_elf.py", line 322, in __init__
+    use_numpy=use_numpy, gpu=gpu, num_recv=num_recv)
+  File "/Go/ELF/src_py/elf/utils_elf.py", line 86, in spec2batches
+    for field in keys
+  File "/Go/ELF/src_py/elf/utils_elf.py", line 86, in <genexpr>
+    for field in keys
+  File "/Go/ELF/src_py/elf/utils_elf.py", line 42, in _alloc
+    with torch.cuda.device(gpu):
+  File "/root/miniconda3/envs/elf/lib/python3.7/site-packages/torch/cuda/__init__.py", line 227, in __enter__
+    self.prev_idx = torch._C._cuda_getDevice()
+RuntimeError: cuda runtime error (35) : CUDA driver version is insufficient for CUDA runtime version at /opt/conda/conda-bld/pytorch_1556653215914/work/torch/csrc/cuda/Module.cpp:52
+[2020-02-23 02:58:10.345] [elf::distributed::Reader-21] [info] Destroying Reader ... 
+[2020-02-23 02:58:10.345] [elf::distributed::Reader-21] [info] Sun Feb 23 02:58:10 2020, Reader: no message, Stats: 0/0/0, wait for 10 sec ... 
+[2020-02-23 02:58:20.315] [elf::distributed::Reader-21] [info] Reader destroyed... 
